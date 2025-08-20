@@ -36,3 +36,9 @@ async def get_user_item(user_id: int, item_id: str, q: str | None = None, r: boo
     if not r:
         item.update({"r":"Hello my good people"})
     return item
+
+#Required Query parameters
+@app.get("/temz/{item_id}")
+async def get_needy(item_id: str, needy: str):
+    items=[{"item_id":item_id},{"needy":needy}]
+    return items
