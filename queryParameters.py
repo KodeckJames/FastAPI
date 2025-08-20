@@ -26,3 +26,13 @@ async def read_item(item_id: str, q: str | None = None, r: bool = False):
     if not r:
         items.update({"Test":"This is the test Query Parameter type conversion"})    
     return items
+
+#Multiple path and Query parameters
+@app.get("/users/{user_id}/itemu/{item_id}")
+async def get_user_item(user_id: int, item_id: str, q: str | None = None, r: bool = False):
+    item = {"user":user_id, "itemu":item_id}
+    if q:
+        item.update({"q":q})
+    if not r:
+        item.update({"r":"Hello my good people"})
+    return item
