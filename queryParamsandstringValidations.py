@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from typing import Annotated
 
 app=FastAPI()
 
@@ -9,3 +10,17 @@ async def get_item(q:str|None=None):
     if q:
         item_list.update({"q":q})
     return item_list
+
+#Additional validation
+#We are going to enforce that even though q is optional, whenever it is provided, its length doesn't exceed 50 characters.
+#Annotated comes from Python’s typing module.
+#It’s a way to attach extra metadata (like validation rules, descriptions, or docs info) to a type.
+#Syntax:
+#Annotated[<base type>, <extra metadata>]
+
+@app.get("/itemz/")
+async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
+    results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+    if q:
+        results.update({"q":q})
+    return results
