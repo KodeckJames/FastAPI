@@ -24,3 +24,5 @@ async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
     if q:
         results.update({"q":q})
     return results
+
+#Use Annotated in the type for the q parameter
