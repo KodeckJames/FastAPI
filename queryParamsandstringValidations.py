@@ -66,3 +66,9 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
 async def get_item(q:Annotated[list[str]|None, Query()]=None):
     query_items={"q":q}
     return query_items
+
+#Query parameter list / multiple values with defaults
+@app.get("/itemmultdef/")
+async def get_item(q:Annotated[list[str]|None, Query()]=["Bar", "Foo","yesyes","nono","maybe"]):
+    query_items = {"q": q}
+    return query_items
