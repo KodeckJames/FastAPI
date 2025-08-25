@@ -58,3 +58,11 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
     if q:
         results.update({"q":q})
     return results
+
+#Query parameter list / multiple values
+#For example, to declare a query parameter q that can appear multiple times in the URL, you can write:
+
+@app.get("/itemmult/")
+async def get_item(q:Annotated[list[str]|None, Query()]=None):
+    query_items={"q":q}
+    return query_items
