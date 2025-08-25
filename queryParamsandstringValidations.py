@@ -42,3 +42,11 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3, patt
     if q:
         results.update({"q":q})
     return results
+
+#Default values
+@app.get("/itemdef/")
+async def get_item(q:Annotated[str|None, Query(min_length=3, max_length=20)]="fixedQuery"):
+    results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+    if q:
+        results.update({"q":q})
+    return results
