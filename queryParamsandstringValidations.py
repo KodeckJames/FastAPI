@@ -26,3 +26,11 @@ async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
     return results
 
 #Use Annotated in the type for the q parameter
+
+#Adding more validations
+@app.get("/itemx/")
+async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
+    results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+    if q:
+        results.update({"q":q})
+    return results
