@@ -79,3 +79,12 @@ async def get_item(q:Annotated[list, Query()]):
     query_items = {"q": q}
     return query_items
 #Keep in mind that in this case, FastAPI won't check the contents of the list.
+
+#Declaring more Metadata
+#That information will be included in the generated OpenAPI and used by the documentation user interfaces and external tools.
+@app.get("/itemstitle/")
+async def get_items(q:Annotated[str, Query(title="Query string", description="Query string for the items to search in the database that have a good match", min_length=3)]=None):
+    results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
+    if q:
+        results.update({"q": q})
+    return results
