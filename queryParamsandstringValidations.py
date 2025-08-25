@@ -50,3 +50,11 @@ async def get_item(q:Annotated[str|None, Query(min_length=3, max_length=20)]="fi
     if q:
         results.update({"q":q})
     return results
+
+#Required parameters
+@app.get("/itemreq/")
+async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
+    results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+    if q:
+        results.update({"q":q})
+    return results
