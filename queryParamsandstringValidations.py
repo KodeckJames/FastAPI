@@ -72,3 +72,10 @@ async def get_item(q:Annotated[list[str]|None, Query()]=None):
 async def get_item(q:Annotated[list[str]|None, Query()]=["Bar", "Foo","yesyes","nono","maybe"]):
     query_items = {"q": q}
     return query_items
+
+#Using just list
+@app.get("/itemlistonly/")
+async def get_item(q:Annotated[list, Query()]):
+    query_items = {"q": q}
+    return query_items
+#Keep in mind that in this case, FastAPI won't check the contents of the list.
