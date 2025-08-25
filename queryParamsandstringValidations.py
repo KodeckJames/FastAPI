@@ -29,7 +29,15 @@ async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
 
 #Adding more validations
 @app.get("/itemx/")
-async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
+async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]=None):
+    results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
+    if q:
+        results.update({"q":q})
+    return results
+
+#Adding regular expressions
+@app.get("/itemsis/")
+async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3, pattern="^fixedquery$")]=None):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
         results.update({"q":q})
