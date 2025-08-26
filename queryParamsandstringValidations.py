@@ -20,7 +20,7 @@ async def get_item(q:str|None=None):
 #Syntax:
 #Annotated[<base type>, <extra metadata>]
 
-@app.get("/itemz/")
+@app.get("/addval/")
 async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
@@ -30,7 +30,7 @@ async def read_item(q: Annotated[str|None, Query(max_length=50)]=None):
 #Use Annotated in the type for the q parameter
 
 #Adding more validations
-@app.get("/itemx/")
+@app.get("/moreval/")
 async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]=None):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
@@ -38,7 +38,7 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]=Non
     return results
 
 #Adding regular expressions
-@app.get("/itemsis/")
+@app.get("/regex/")
 async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3, pattern="^fixedquery$")]=None):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
@@ -46,7 +46,7 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3, patt
     return results
 
 #Default values
-@app.get("/itemdef/")
+@app.get("/defaults/")
 async def get_item(q:Annotated[str|None, Query(min_length=3, max_length=20)]="fixedQuery"):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
@@ -54,7 +54,7 @@ async def get_item(q:Annotated[str|None, Query(min_length=3, max_length=20)]="fi
     return results
 
 #Required parameters
-@app.get("/itemreq/")
+@app.get("/reqparams/")
 async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
     results={"items":[{"item_id":"Foo"},{"item_id":"Bar"}]}
     if q:
@@ -64,19 +64,19 @@ async def get_item(q:Annotated[str|None, Query(max_length=20, min_length=3)]):
 #Query parameter list / multiple values
 #For example, to declare a query parameter q that can appear multiple times in the URL, you can write:
 
-@app.get("/itemmult/")
+@app.get("/multvalues/")
 async def get_item(q:Annotated[list[str]|None, Query()]=None):
     query_items={"q":q}
     return query_items
 
 #Query parameter list / multiple values with defaults
-@app.get("/itemmultdef/")
+@app.get("/multvaluesdef/")
 async def get_item(q:Annotated[list[str]|None, Query()]=["Bar", "Foo","yesyes","nono","maybe"]):
     query_items = {"q": q}
     return query_items
 
 #Using just list
-@app.get("/itemlistonly/")
+@app.get("/list/")
 async def get_item(q:Annotated[list, Query()]):
     query_items = {"q": q}
     return query_items
@@ -84,7 +84,7 @@ async def get_item(q:Annotated[list, Query()]):
 
 #Declaring more Metadata
 #That information will be included in the generated OpenAPI and used by the documentation user interfaces and external tools.
-@app.get("/itemsmetadata/")
+@app.get("/metadata/")
 async def get_items(q:Annotated[str, Query(title="Query string", description="Query string for the items to search in the database that have a good match", min_length=3)]=None):
     results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
     if q:
@@ -92,7 +92,7 @@ async def get_items(q:Annotated[str, Query(title="Query string", description="Qu
     return results
 
 #Alias parameters
-@app.get("/itemsalias/")
+@app.get("/alias/")
 async def get_item(q:Annotated[str|None, Query(alias="item-query")]=None):
     results = {"items": [{"item_id": "Foo"}, {"item_id": "Bar"}]}
     if q:
@@ -100,7 +100,7 @@ async def get_item(q:Annotated[str|None, Query(alias="item-query")]=None):
     return results
 
 #Deprecating Parameters
-@app.get("/itemsdeprecated/")
+@app.get("/deprecated/")
 async def read_items(
     q: Annotated[
         str | None,
