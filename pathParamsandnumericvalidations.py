@@ -10,3 +10,10 @@ async def read_item(item_id:Annotated[int, Path(title="This is the title of the 
         results.update({"q":q})
     return results
 
+#Number validations: greater than or equal
+@app.get("/numvalidation/{item_id}")
+async def read_item(item_id:Annotated[int, Path(title="Item ID", ge=10)], q:str):
+    results={"item_id":item_id}
+    if q:
+        results.update({"q":q})
+    return results
