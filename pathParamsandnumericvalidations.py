@@ -1,0 +1,12 @@
+from fastapi import FastAPI, Path, Query
+from typing import Annotated
+
+app=FastAPI()
+
+@app.get("/items/{item_id}")
+async def read_item(item_id:Annotated[int, Path(title="This is the title of the Path Parameter")], q:Annotated[str|None, Query(alias="query-param")]=None):
+    results={"item_id":item_id}
+    if q:
+        results.update({"q":q})
+    return results
+
