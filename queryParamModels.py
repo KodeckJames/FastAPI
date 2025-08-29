@@ -4,13 +4,12 @@ from typing import Annotated, Literal
 
 app=FastAPI()
 
-class FilterParams(BaseModel):
-    limit: int = Field(100, gt=0, le=100)
-    offset: int = Field(0, ge=0)
-    order_by: Literal["created_at", "updated_at"] = "created_at"
-    tags: list[str] = []
-
+class Model_defined(BaseModel):
+    score:int=Field(100, gt=1, le=1000)
+    marks:int=Field(0, gt=10)
+    names:Literal['JJ','Ondix']="JJ"
+    people:list[str]=[]
 
 @app.get("/items/")
-async def read_items(filter_query: Annotated[FilterParams, Query()]):
-    return filter_query
+async def get_items(defined:Annotated[Model_defined, Query()]):
+    return defined
