@@ -3,6 +3,10 @@ from pydantic import BaseModel
 
 app=FastAPI()
 
+class Image(BaseModel):
+    url:str
+    name:str
+
 class Item(BaseModel):
     name:str
     description:str|None=None
@@ -10,8 +14,22 @@ class Item(BaseModel):
     tax:float|None=None
     prizes:list[str]=[]
     tags:set[str]=()
+    image:Image|None=None
 
 @app.put("/item/{item_id}")
 async def put_item(item_id:int, item:Item):
     result={"item_id":item_id, "item":item}
     return result
+
+# This would mean that FastAPI would expect a body similar to:
+{
+    "name": "Foo",
+    "description": "The pretender",
+    "price": 42.0,
+    "tax": 3.2,
+    "tags": ["rock", "metal", "bar"],
+    "image": {
+        "url": "http://example.com/baz.jpg",
+        "name": "The Foo live"
+    }
+}
