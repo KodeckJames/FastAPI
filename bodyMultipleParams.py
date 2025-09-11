@@ -17,7 +17,7 @@ class User(BaseModel):
 @app.put("/items/{item_id}")
 async def put_item(
     item_id:Annotated[int, Path(description="Hello, World!", ge=0, le=1000 )],
-    importance:Annotated[int, Body()],
+    importance:Annotated[int, Body(alias="import")],
     q:Annotated[str|None, Query(alias="qparam")]=None,
     item:Item|None=None,
     user:User|None=None,
