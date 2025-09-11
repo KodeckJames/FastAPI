@@ -8,7 +8,8 @@ class Item(BaseModel):
     description:str|None=None
     price:float
     tax:float|None=None
-    tags:list[str]=[]
+    prizes:list[str]=[]
+    tags:set[str]=()
 
 @app.put("/item/{item_id}")
 async def put_item(item_id:int, item:Item):
