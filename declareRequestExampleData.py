@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Body
 from pydantic import BaseModel, Field
+from typing import Annotated
 
 app=FastAPI()
 
@@ -24,6 +25,11 @@ class Item(BaseModel):
     }
 
 @app.put("/items/{item_id}")
-async def put_item(item_id:int, item:Item):
+async def put_item(item_id:int, item:Annotated[Item, Body(examples=[{
+    "name": "Foo",
+    "description": "A very nice Item",
+    "price": 35.4,
+    "tax": 3.2,
+}])]):
     result={"item_id":item_id, "item":item}
     return result
