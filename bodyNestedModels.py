@@ -64,3 +64,29 @@ async def put_item(item_id:int, item:Item):
         }
     ]
 }
+
+# Bodies of pure lists¶
+# If the top level value of the JSON body you expect is a JSON array (a Python list), you can declare the type in the parameter of the function, the same as in Pydantic models:
+class Image2(BaseModel):
+    url:HttpUrl
+    name:str
+
+@app.post("/images/multiple")
+async def post_multiple_images(images:list[Image2]):
+    return images
+
+#Example body:
+[
+  {
+    "url": "https://example.com/cat.png",
+    "name": "Cute Cat"
+  },
+  {
+    "url": "https://example.com/dog.png",
+    "name": "Happy Dog"
+  },
+  {
+    "url": "https://example.com/bird.png",
+    "name": "Flying Bird"
+  }
+]
