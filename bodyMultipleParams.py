@@ -10,15 +10,22 @@ class Item(BaseModel):
     value:float
     tax:float|None=None
 
+class User(BaseModel):
+    username:str
+    full_name:str|None=None
+
 @app.put("/items/{item_id}")
 async def put_item(
     item_id:Annotated[int, Path(description="Hello, World!", ge=0, le=1000 )],
     q:Annotated[str|None, Query(alias="qparam")]=None,
-    item:Item|None=None
+    item:Item|None=None,
+    user:User|None=None
 ):
     result={"Item_id":item_id}
     if q:
         result.update({"q":q})
     if item:
         result.update({"item":item})
+    if user:
+        result.update({"User":user})
     return result
