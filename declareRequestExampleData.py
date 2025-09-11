@@ -1,14 +1,14 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 app=FastAPI()
 
 # Extra JSON Schema data in Pydantic models¶
 class Item(BaseModel):
-    name:str
-    description:str|None=None
-    price:float
-    tax:float|None=None
+    name:str=Field(examples=["Foo"])
+    description:str|None=Field(default=None, examples=["This is the best FastAPI course"])
+    price:float=Field(examples=[9.99])
+    tax:float|None=Field(default=None, examples=[0.78])
 
     model_config={
         "json_schema_extra":{
