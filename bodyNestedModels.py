@@ -17,6 +17,12 @@ class Item(BaseModel):
     image:Image|None=None
     photos:list[Image]|None=None
 
+class Offer(BaseModel):
+    name:str
+    description:str|None=None
+    price:float
+    items:list[Item]
+
 @app.put("/item/{item_id}")
 async def put_item(item_id:int, item:Item):
     result={"item_id":item_id, "item":item}
