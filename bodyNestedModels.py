@@ -15,6 +15,7 @@ class Item(BaseModel):
     prizes:list[str]=[]
     tags:set[str]=()
     image:Image|None=None
+    photos:list[Image]|None=None
 
 @app.put("/item/{item_id}")
 async def put_item(item_id:int, item:Item):
@@ -32,4 +33,28 @@ async def put_item(item_id:int, item:Item):
         "url": "http://example.com/baz.jpg",
         "name": "The Foo live"
     }
+}
+
+# You can also use Pydantic models as subtypes of list, set, etc. as in line 18
+# This will expect (convert, validate, document, etc.) a JSON body like
+{
+    "name": "Foo",
+    "description": "The pretender",
+    "price": 42.0,
+    "tax": 3.2,
+    "tags": [
+        "rock",
+        "metal",
+        "bar"
+    ],
+    "images": [
+        {
+            "url": "http://example.com/baz.jpg",
+            "name": "The Foo live"
+        },
+        {
+            "url": "http://example.com/dave.jpg",
+            "name": "The Baz"
+        }
+    ]
 }
