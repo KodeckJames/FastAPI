@@ -90,3 +90,8 @@ async def post_multiple_images(images:list[Image2]):
     "name": "Flying Bird"
   }
 ]
+
+# Bodies of arbitrary dicts
+@app.post("/weights/")
+async def post_weight(weights:dict[int, float]):
+    return weights
