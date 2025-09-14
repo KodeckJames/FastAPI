@@ -5,6 +5,8 @@ from pydantic import BaseModel
 app=FastAPI()
 
 class Cookies(BaseModel):
+    model_config={"extra":"forbid"}
+    
     session_id:str
     fatebook_tracker:str|None=None
     googall_tracker:str|None=None
