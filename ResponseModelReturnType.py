@@ -21,3 +21,12 @@ async def read_item()->list[Item]:
         Item(name="Yellow", price=54.89),
         Item(name="YesYes", price=87.23)
     ]
+
+# Without -> Item: still works ✔️
+
+# With -> Item:
+# ✅ Better docs
+# ✅ Automatic response validation
+# ✅ Easier development (type hints, autocompletion)
+
+# It’s less about “making the API work” and more about “making it robust, safe, and well-documented.”
