@@ -1,2 +1,2 @@
-Just read the docs 😏
+Just read the docs 😏  
 ⚡https://fastapi.tiangolo.com/⚡
