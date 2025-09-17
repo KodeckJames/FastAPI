@@ -93,3 +93,8 @@ async def new_dimension(teleport:bool=False)->Response:
     if teleport:
         return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     return JSONResponse(content={"Yellow!":"Here is your new dimension"})
+
+# Annotate a Response subclass
+@app.get("/defaultportal")
+async def default_dimension()->JSONResponse:
+    return JSONResponse(content={"Yellowwz!!":"You belong here buddy, Nowhere to run!!!"})
