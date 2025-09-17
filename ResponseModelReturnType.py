@@ -30,3 +30,16 @@ async def read_item()->list[Item]:
 # ✅ Easier development (type hints, autocompletion)
 
 # It’s less about “making the API work” and more about “making it robust, safe, and well-documented.”
+
+# response_model decorator Parameter
+
+@app.get("/itemsdec/", response_model=list[Item])
+async def get_item()->any:
+    return  [
+        {"name": "Portal Gun", "price": 42.0},
+        {"name": "Plumbus", "price": 32.0},
+    ]
+
+@app.post("/itemsdec/", response_model=Item)
+async def post_item(item:Annotated[Item, Body()]):
+    return item
