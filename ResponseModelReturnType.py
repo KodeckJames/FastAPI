@@ -89,7 +89,7 @@ async def post_item(user2:Annotated[UserIn2, Body()])->BaseUser:
 # OTHER RETURN TYPE ANNOTATIONS
 # Return a response directly
 @app.get("/portal")
-async def new_dimension(teleport:bool=False)->Response:
+async def new_dimension(teleport:Annotated[bool, Query()]=False)->Response:
     if teleport:
         return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
     return JSONResponse(content={"Yellow!":"Here is your new dimension"})
