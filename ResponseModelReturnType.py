@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Body
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Annotated
 
 app=FastAPI()
@@ -43,3 +43,14 @@ async def get_item()->any:
 @app.post("/itemsdec/", response_model=Item)
 async def post_item(item:Annotated[Item, Body()]):
     return item
+
+# Returning the same input data
+class UserIn(BaseModel):
+    name:str
+    password:str
+    email:EmailStr
+    full_name:str|None=None
+
+@app.post("/user/")
+async def get_user(user:Annotated[UserIn, Body()])->UserIn:
+    return user
