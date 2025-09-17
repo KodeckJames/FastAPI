@@ -1,6 +1,7 @@
-from fastapi import FastAPI, Body
+from fastapi import FastAPI, Body, Response, Query
 from pydantic import BaseModel, EmailStr
 from typing import Annotated, Any
+from fastapi.responses import JSONResponse, RedirectResponse
 
 app=FastAPI()
 
@@ -84,3 +85,11 @@ class UserIn2(BaseUser):
 @app.post("/userpass2/")
 async def post_item(user2:Annotated[UserIn2, Body()])->BaseUser:
     return user2
+
+# OTHER RETURN TYPE ANNOTATIONS
+# Return a response directly
+@app.get("/portal")
+async def new_dimension(teleport:bool=False)->Response:
+    if teleport:
+        return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+    return JSONResponse(content={"Yellow!":"Here is your new dimension"})
