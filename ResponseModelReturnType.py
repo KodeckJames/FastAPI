@@ -54,3 +54,20 @@ class UserIn(BaseModel):
 @app.post("/user/")
 async def get_user(user:Annotated[UserIn, Body()])->UserIn:
     return user
+
+# Adding an output model
+# Here, even though our path operation function is returning the same input user that contains the password, we declared the response_model to be our model UserOut, that doesn't include the password, So, FastAPI will take care of filtering out all the data that is not declared in the output model (using Pydantic):
+class UserIn(BaseModel):
+    name:str
+    password:str
+    email:EmailStr
+    full_name:str|None=None
+
+class UserOut(BaseModel):
+    name:str
+    email:EmailStr
+    full_name:str|None=None
+
+@app.post("/user/", response_model=UserOut)
+async def get_user(user:Annotated[UserIn, Body()])->any:
+    return user
