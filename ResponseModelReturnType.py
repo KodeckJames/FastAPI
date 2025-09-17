@@ -71,3 +71,16 @@ class UserOut(BaseModel):
 @app.post("/userpass/", response_model=UserOut)
 async def get_user(user:Annotated[UserIn, Body()])->Any:
     return user
+
+# Return type and data filtering
+class BaseUser(BaseModel):
+    name: str
+    email: EmailStr
+    full_name: str | None = None
+
+class UserIn2(BaseUser):
+    password:str
+
+@app.post("/userpass2/")
+async def post_item(user2:Annotated[UserIn2, Body()])->BaseUser:
+    return user2
