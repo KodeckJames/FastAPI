@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Body
 from pydantic import BaseModel, EmailStr
-from typing import Annotated
+from typing import Annotated, Any
 
 app=FastAPI()
 
@@ -34,7 +34,7 @@ async def read_item()->list[Item]:
 # response_model decorator Parameter
 
 @app.get("/itemsdec/", response_model=list[Item])
-async def get_item()->any:
+async def get_item()->Any:
     return  [
         {"name": "Portal Gun", "price": 42.0},
         {"name": "Plumbus", "price": 32.0},
@@ -68,6 +68,6 @@ class UserOut(BaseModel):
     email:EmailStr
     full_name:str|None=None
 
-@app.post("/user/", response_model=UserOut)
-async def get_user(user:Annotated[UserIn, Body()])->any:
+@app.post("/userpass/", response_model=UserOut)
+async def get_user(user:Annotated[UserIn, Body()])->Any:
     return user
