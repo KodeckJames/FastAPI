@@ -100,11 +100,6 @@ async def default_dimension()->JSONResponse:
     return JSONResponse(content={"Yellowwz!!":"You belong here buddy, Nowhere to run!!!"})
 
 # Invalid Return Type Annotations
-from fastapi import FastAPI, Response
-from fastapi.responses import RedirectResponse
-
-app = FastAPI()
-
 
 @app.get("/fails")
 async def get_portal(teleport: bool = False) -> Response | dict:
@@ -113,3 +108,12 @@ async def get_portal(teleport: bool = False) -> Response | dict:
     return {"message": "Here's your interdimensional portal."}
 
 # This fails because the type annotation is not a Pydantic type and is not just a single Response class or subclass, it's a union (any of the two) between a Response and a dict.
+
+# Disable Response Model
+@app.get("/withoutvalidation", response_model=None)
+async def get_item(teleport:Annotated[bool, Query()]=False)->Response|dict:
+    if teleport:
+        return RedirectResponse(url="https://www.youtube.com/watch?v=1Kzqln4HozQ")
+    return JSONResponse(content={"Yooh":"Guess who's staying here!!"})
+
+        
