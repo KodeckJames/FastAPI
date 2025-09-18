@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Body, Response, Query
+from fastapi import FastAPI, Body, Response, Query, Path
 from pydantic import BaseModel, EmailStr
 from typing import Annotated, Any
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -101,11 +101,11 @@ async def default_dimension()->JSONResponse:
 
 # Invalid Return Type Annotations
 
-@app.get("/fails")
-async def get_portal(teleport: bool = False) -> Response | dict:
-    if teleport:
-        return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-    return {"message": "Here's your interdimensional portal."}
+# @app.get("/fails")
+# async def get_portal(teleport: bool = False) -> Response | dict:
+#     if teleport:
+#         return RedirectResponse(url="https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+#     return {"message": "Here's your interdimensional portal."}
 
 # This fails because the type annotation is not a Pydantic type and is not just a single Response class or subclass, it's a union (any of the two) between a Response and a dict.
 
@@ -116,4 +116,20 @@ async def get_item(teleport:Annotated[bool, Query()]=False)->Response|dict:
         return RedirectResponse(url="https://www.youtube.com/watch?v=1Kzqln4HozQ")
     return JSONResponse(content={"Yooh":"Guess who's staying here!!"})
 
-        
+# Response Model encoding parameters
+class Cars(BaseModel):
+    name:str
+    description:str|None="A good car"
+    price:float
+    tax:float=500000.00
+    competitors:list[str]=[]
+
+cars={
+        "Mercedes":{"name":"GLE","price":10000000.00},
+        "Mazda":{"name":"CX-8","description":"A good SUV if you are on a budget","price":4000000.00,"tax":100000,"competitors":["Hyundai","Honda","Toyota"]},
+        "Honda":{"name":"Hybrid","description":"A good car","price":4000000.00,"tax":500000.00,"competitors":["Hyundai","Honda","Toyota"]}
+    }
+
+@app.get("/cars/{item_id}", response_model=Cars, response_model_exclude_unset=True, response_model_exclude_defaults=True)
+async def available_cars(item_id:Annotated[str, Path()]):
+    return cars[item_id]
