@@ -133,3 +133,12 @@ cars={
 @app.get("/cars/{item_id}", response_model=Cars, response_model_exclude_unset=True, response_model_exclude_defaults=True)
 async def available_cars(item_id:Annotated[str, Path()]):
     return cars[item_id]
+
+# response_model_include and response_model_exclude
+@app.get("/cars/{item_id}/name", response_model=Cars, response_model_include={"name","description"})
+async def available_cars(item_id:Annotated[str, Path()]):
+    return cars[item_id]
+
+@app.get("/cars/{item_id}/public", response_model=Cars, response_model_exclude={"tax"})
+async def available_cars(item_id:Annotated[str, Path()]):
+    return cars[item_id]
