@@ -142,3 +142,9 @@ async def available_cars(item_id:Annotated[str, Path()]):
 @app.get("/cars/{item_id}/public", response_model=Cars, response_model_exclude={"tax"})
 async def available_cars(item_id:Annotated[str, Path()]):
     return cars[item_id]
+
+# Using list instead of set when passing the response_model_include and response_model_exclude decorator params will still work even though by default you're supposed to pass a set
+# If you forget to use a set and use a list or tuple instead, FastAPI will still convert it to a set and it will work correctly:
+@app.get("/cars/{item_id}/namelist", response_model=Cars, response_model_include=["name","description"])
+async def available_cars(item_id:Annotated[str, Path()]):
+    return cars[item_id]
