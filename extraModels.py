@@ -107,3 +107,8 @@ item_list=[
 @app.get("/itemList", response_model=list[ListItems])
 async def get_listItem():
     return item_list
+
+# Response with arbitrary dict
+@app.get("/itemsdict/", response_model=dict[str, float])
+async def get_dict_items():
+    return {"GLE":10, "Urus":10}    
