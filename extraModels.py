@@ -93,3 +93,17 @@ async def get_item(item_id:str):
 # If it was in a type annotation we could have used the vertical bar, as:
 # some_variable: PlaneItem | CarItem
 # But if we put that in the assignment response_model=PlaneItem | CarItem we would get an error, because Python would try to perform an invalid operation between PlaneItem and CarItem instead of interpreting that as a type annotation.
+
+# Returning a list as response:
+class ListItems(BaseModel):
+    name:str
+    description:str
+
+item_list=[
+    {"name":"Jlow","description":"He is a good fella"},
+    {"name":"JJ","description":"He is a respectable member of the society"}
+]
+
+@app.get("/itemList", response_model=list[ListItems])
+async def get_listItem():
+    return item_list
