@@ -5,6 +5,7 @@ from pydantic import BaseModel, EmailStr
 app=FastAPI()
 
 class UserModel(BaseModel):
+    model_config={"extra":"forbid"}
     username:str
     email:EmailStr
 
