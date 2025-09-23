@@ -12,3 +12,16 @@ async def get_file(userFile:Annotated[bytes, File()]):
 async def upload_file(myfile:UploadFile):
     data = await myfile.read()
     return {"fileName":myfile.content_type}
+
+# Optional file upload
+@app.post("/optionalFile/")
+async def optional(userOptional:Annotated[bytes|None, File()]=None):
+    if userOptional:
+        return{"FileLength":len(userOptional)}
+    return{"Message":"No file uploaded"}
+
+@app.post("/optionalUploadFile/")
+async def optional2(myfileOptional:UploadFile|None=None):
+    if myfileOptional:
+        return{"Name":myfileOptional.filename}
+    return{"Message":"No file uploaded"}
