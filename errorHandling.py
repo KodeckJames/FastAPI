@@ -3,6 +3,8 @@ from typing import Annotated
 from fastapi.responses import JSONResponse, PlainTextResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel
 
 app=FastAPI()
 
@@ -49,3 +51,16 @@ async def get_item(item_id:int):
     if item_id==3:
         raise HTTPException(status_code=418, detail="Nope, 3 is not the number")
     return{"Item_id":item_id}
+
+# Use the RequestValidationError body
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc:RequestValidationError):
+    return JSONResponse(status_code=422, content=jsonable_encoder({"details":exc.errors(), "body":exc.body})),
+
+class Item(BaseModel):
+    title:str
+    size:int
+
+@app.post("/items4/")
+async def create_item(item:Item):
+    return item
