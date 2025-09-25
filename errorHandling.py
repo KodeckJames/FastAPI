@@ -5,6 +5,10 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
+from fastapi.exception_handlers import (
+    http_exception_handler, 
+    request_validation_exception_handler
+)
 
 app=FastAPI()
 
@@ -64,3 +68,20 @@ class Item(BaseModel):
 @app.post("/items4/")
 async def create_item(item:Item):
     return item
+
+# Reuse FastAPI's exception handlers
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request, exc):
+    print(f"OMG! An HTTP error!: {repr(exc)}")
+    return await http_exception_handler(request, exc)
+
+@app.exception_handler(RequestValidationError)
+async def validatio_exception_handler(request, exc):
+    print(f"OMG! The client sent invalid data!: {exc}")
+    return await request_validation_exception_handler(request, exc)
+
+@app.get("/items5/{item_id}")
+async def read_item(item_id: int):
+    if item_id==3:
+        raise HTTPException(status_code=418, detail="Nah, 3 can't be the number")
+    return {"item_id":item_id}
