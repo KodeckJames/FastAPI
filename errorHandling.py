@@ -10,5 +10,5 @@ items={
 @app.get("/items/{item_id}")
 async def get_item(item_id:Annotated[str, Path()]):
     if item_id not in items:
-        raise HTTPException(detail={"Error":"This item doesn't exist"}, status_code=404)
+        raise HTTPException(detail={"Error":"This item doesn't exist"}, status_code=404, headers={"X-Error":"This is a not found error"})
     return items[item_id]
