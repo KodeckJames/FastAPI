@@ -50,4 +50,9 @@ async def get_items_enum():
 @app.get("/usersenum/", tags=[Tags.users])
 async def get_item_useenum():
     return["Rick", "Morty"]
-   
+
+# Description and summary
+@app.post("/itemz/", response_model=Item, summary="Personal details", description="Add your details as required")
+async def post_item_with_summary(item:Item):
+    return item
+
