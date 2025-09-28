@@ -83,3 +83,8 @@ async def post_item(item:Item):
     - **tags**: a set of unique tag strings for this item
     """
     return item
+
+# Deprecate a path operation
+@app.get("/deprecated/", tags=[Tags.items], deprecated=True)
+async def get_item():
+    return{"Message":"This path is deprecated!!! Run for your life!!!"}
