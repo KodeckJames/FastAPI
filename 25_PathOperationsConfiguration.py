@@ -56,3 +56,16 @@ async def get_item_useenum():
 async def post_item_with_summary(item:Item):
     return item
 
+# Description from docstring
+@app.post("/docstringdescription/", summary="Just post something!")
+async def post_item(item:Item):
+    """
+    Create an item with all the information:
+
+    - **name**: each item must have a name
+    - **description**: a long description
+    - **price**: required
+    - **tax**: if the item doesn't have tax, you can omit this
+    - **tags**: a set of unique tag strings for this item
+    """
+    return item
