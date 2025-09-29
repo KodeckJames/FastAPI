@@ -21,8 +21,22 @@ items = {
 async def read_item(item_id: str):
     return items[item_id]
 
+# NB: PUT is for replacing content
 @app.put("/items/{item_id}", response_model=Item)
 async def update_item(item:Item, item_id:str):
     updated_encoded_data=jsonable_encoder(item)
     items[item_id]=updated_encoded_data
     return updated_encoded_data
+
+# PATCH is for partially updating data
+# This means that you can only send the data that you want to update/ change and leave the rest intact
+
+# Using Pydantic's exclude_unset parameter
+@app.patch("/items/{item_id}", response_model=Item)
+async def update_item(item_id: str, item: Item):
+    stored_item_data = items[item_id]
+    stored_item_model = Item(**stored_item_data)
+    update_data = item.model_dump(exclude_unset=True)
+    updated_item = stored_item_model.model_copy(update=update_data)
+    items[item_id] = jsonable_encoder(updated_item)
+    return updated_item
