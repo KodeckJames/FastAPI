@@ -16,3 +16,4 @@ class Item(BaseModel):
 async def update_item(item:Item, id:str):
     jsonable_converted_data=jsonable_encoder(item)
     fake_DB[id]=jsonable_converted_data
+    return fake_DB[id]
