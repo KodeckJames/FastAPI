@@ -20,3 +20,14 @@ async def get_items(commons:Annotated[CommonQueryParams, Depends(CommonQueryPara
     items=fake_items_db[commons.skip:commons.skip+commons.limit]
     response.update({"items":items})
     return response
+
+# FastAPI shortcut for avoiding the repetition of CommonQueryParams in: commons:Annotated[CommonQueryParams, Depends(CommonQueryParams)]
+@app.get("/shortcutItems")
+async def get_items(commons:Annotated[CommonQueryParams, Depends()]):
+    response={}
+    if commons.q:
+        response.update({"q":commons.q})
+    items=fake_items_db[commons.skip:commons.skip+commons.limit]
+    response.update({"items":items})
+    return response
+
