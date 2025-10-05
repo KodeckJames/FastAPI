@@ -8,6 +8,8 @@ app=FastAPI()
 async def common_params(q:str|None=None, skip:int=0, limit:int=100):
     return{"q":q, "skip":skip, "limit":limit}
 
+type CommonDeps=Annotated[dict, Depends(common_params)]
+
 @app.get("/items")
 async def get_items(commons:Annotated[dict, Depends(common_params)]):
     return commons
@@ -15,3 +17,8 @@ async def get_items(commons:Annotated[dict, Depends(common_params)]):
 @app.get("/users")
 async def get_users(user_commons:Annotated[dict, Depends(common_params)]):
     return user_commons
+
+# Alternative to prevent duplication by sharing Annotated dependencies
+@app.get("/objects")
+async def get_objects(commons:CommonDeps):
+    return commons
