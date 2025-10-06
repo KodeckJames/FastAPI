@@ -10,6 +10,7 @@ async def verify_token(token:Annotated[str, Header()]):
 async def verify_key(tokenKey:Annotated[str, Header()]):
     if tokenKey != "Fake-secret-super-key":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Token key is invalid")
+    return tokenKey
     
 @app.get("/items/", dependencies=[Depends(verify_token), Depends(verify_key)])
 async def get_item():
