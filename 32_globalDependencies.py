@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Header, HTTPException, Depends, dependencies, status
+from fastapi import FastAPI, Header, HTTPException, Depends, status
 from typing import Annotated
 
 async def verify_token(q:Annotated[str|None, Header()]=None):
